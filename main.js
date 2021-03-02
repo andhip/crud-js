@@ -21,6 +21,24 @@ const ItemCtrl  =   (function(){
         getItems : function() {
             return data.items;
         },
+        addItem: function(nama, harga){
+            let ID;
+
+            if(data.items.length > 0){
+                ID = data.items[data.items.length -1].id + 1;
+            }else {
+                ID = 0;
+            }
+
+            harga = parseInt(harga);
+
+            newItem = new Item(ID, nama, harga);
+
+            data.items.push(newItem);
+
+            return newItem;
+
+        },
         logData:    function() {
             return data;
         }
@@ -33,6 +51,8 @@ const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
+        itemNamaPaket: '#nama-paket',
+        itemHargaPaket: '#harga-paket'
     }
 
     return {
@@ -51,6 +71,12 @@ const UICtrl    =   (function() {
             });
         
             document.querySelector(UISelector.itemList).innerHTML   =   html;
+        },
+        getItemInput: function(){
+            return {
+                nama : document.querySelector(UISelector.itemNamaPaket).value,
+                harga : document.querySelector(UISelector.itemHargaPaket).value
+            }
         },
         getSelector: function(){
             return UISelector;
@@ -71,8 +97,12 @@ const App   =   (function(ItemCtrl, UICtrl){
 
     const itemAddSubmit = function(e){
         
-        console.log('Add');
+        const input = UICtrl.getItemInput();
 
+        //kondisi
+        if(input.nama !== '' && input.harga !== ''){
+            const newItem = ItemCtrl.addItem(input.nama, input.harga);
+        }
         e.preventDefault();
     }
 
