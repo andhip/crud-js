@@ -31,7 +31,8 @@ const ItemCtrl  =   (function(){
 
 const UICtrl    =   (function() {
     const UISelector    = {
-        itemList: '#item-list'
+        itemList: '#item-list',
+        addBtn  : '.add-btn',
     }
 
     return {
@@ -50,6 +51,9 @@ const UICtrl    =   (function() {
             });
         
             document.querySelector(UISelector.itemList).innerHTML   =   html;
+        },
+        getSelector: function(){
+            return UISelector;
         }
 
     }
@@ -57,12 +61,29 @@ const UICtrl    =   (function() {
 
 const App   =   (function(ItemCtrl, UICtrl){
 
+    
+    const loadEventListeners = function(){
+        
+        const UISelector = UICtrl.getSelector();
+
+        document.querySelector(UISelector.addBtn).addEventListener('click', itemAddSubmit);
+    }
+
+    const itemAddSubmit = function(e){
+        
+        console.log('Add');
+
+        e.preventDefault();
+    }
+
     return {
         init: function(){
 
             const items =   ItemCtrl.getItems();
 
             UICtrl.populateItemList(items);
+        
+            loadEventListeners();
         }
     }
 
