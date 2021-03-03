@@ -8,9 +8,9 @@ const ItemCtrl  =   (function(){
 
     const data = {
         items: [
-            {id: 0, nama: 'SEO', harga: 120000},
-            {id: 1, nama: 'Google Addboard', harga: 450000},
-            {id: 2, nama: 'Fullstack Web', harga: 600000},
+            // {id: 0, nama: 'SEO', harga: 120000},
+            // {id: 1, nama: 'Google Addboard', harga: 450000},
+            // {id: 2, nama: 'Fullstack Web', harga: 600000},
         ],
 
         currenItem: null,
@@ -82,6 +82,8 @@ const UICtrl    =   (function() {
         //Add Item To table
         addListItem: function(item){
 
+            document.querySelector(UISelector.itemList).style.display = 'block';
+
             const li = document.createElement('li');
 
             li.className = 'collection-item';
@@ -100,6 +102,10 @@ const UICtrl    =   (function() {
         clearInput: function() {
             document.querySelector(UISelector.itemNamaPaket).value = '';
             document.querySelector(UISelector.itemHargaPaket).value = '';
+        },
+
+        hideList: function(){
+            document.querySelector(UISelector.itemList).style.display = 'nnone'
         },
 
         getSelector: function(){
@@ -139,7 +145,14 @@ const App   =   (function(ItemCtrl, UICtrl){
 
             const items =   ItemCtrl.getItems();
 
-            UICtrl.populateItemList(items);
+            //hide list item on table
+            if(items.length === 0){
+                UICtrl.hideList();
+            }else {
+                UICtrl.populateItemList(items);
+
+            }
+
         
             loadEventListeners();
         }
