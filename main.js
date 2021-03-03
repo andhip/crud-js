@@ -78,6 +78,25 @@ const UICtrl    =   (function() {
                 harga : document.querySelector(UISelector.itemHargaPaket).value
             }
         },
+
+        //Add Item To table
+        addListItem: function(item){
+
+            const li = document.createElement('li');
+
+            li.className = 'collection-item';
+
+            li.id = `item-${item.id}`;
+
+            li.innerHTML = ` <b>${item.nama} </b><em>Rp. ${item.harga}</em>
+            <a href="#" class="secondary-content">
+                <i class="fa fa-pencil"></i>
+            </a>`;
+
+            document.querySelector(UISelector.itemList).insertAdjacentElement('beforeend', li);
+
+        },
+
         getSelector: function(){
             return UISelector;
         }
@@ -102,6 +121,9 @@ const App   =   (function(ItemCtrl, UICtrl){
         //kondisi
         if(input.nama !== '' && input.harga !== ''){
             const newItem = ItemCtrl.addItem(input.nama, input.harga);
+        
+            UICtrl.addListItem(newItem);
+
         }
         e.preventDefault();
     }
