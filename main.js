@@ -97,6 +97,11 @@ const UICtrl    =   (function() {
 
         },
 
+        clearInput: function() {
+            document.querySelector(UISelector.itemNamaPaket).value = '';
+            document.querySelector(UISelector.itemHargaPaket).value = '';
+        },
+
         getSelector: function(){
             return UISelector;
         }
@@ -124,6 +129,7 @@ const App   =   (function(ItemCtrl, UICtrl){
         
             UICtrl.addListItem(newItem);
 
+            UICtrl.clearInput();
         }
         e.preventDefault();
     }
