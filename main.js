@@ -21,6 +21,7 @@ const ItemCtrl  =   (function(){
         getItems : function() {
             return data.items;
         },
+
         addItem: function(nama, harga){
             let ID;
 
@@ -39,6 +40,32 @@ const ItemCtrl  =   (function(){
             return newItem;
 
         },
+        getItemById : function(id){
+            //made id
+            let found = null;
+
+            data.item.forEach(function(item){
+                if(item.id === id){ //looping by id
+                    found = item;
+                }
+            });
+            return found;
+        },
+
+        getTotalHarga: function(){
+            let total = 0;
+
+            // looping item and add class
+            data.items.forEach(function(item){
+                total += item.harga;
+            });
+
+            // set total data
+            data.totalHarga = total;
+
+            // return total
+            return data.totalHarga;
+        },
         logData:    function() {
             return data;
         }
@@ -51,9 +78,9 @@ const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
-        updateBtn: '.update-btn',
-        deleteBtn: '.delete-btn',
-        backBtn: '.back-btn'
+        // updateBtn: '.update-btn',
+        // deleteBtn: '.delete-btn',
+        // backBtn: '.back-btn',
         itemNamaPaket: '#nama-paket',
         itemHargaPaket: '#harga-paket'
     }
@@ -139,6 +166,13 @@ const App   =   (function(ItemCtrl, UICtrl){
             UICtrl.addListItem(newItem);
 
             UICtrl.clearInput();
+
+            const totalHarga = ItemCtrl.getTotalHarga();
+
+            // add total harga to UI/browser
+            UICtrl.showTotalHarga(totalHarga);
+
+       
         }
         e.preventDefault();
     }
