@@ -172,7 +172,6 @@ const App   =   (function(ItemCtrl, UICtrl){
             // add total harga to UI/browser
             UICtrl.showTotalHarga(totalHarga);
 
-       
         }
         e.preventDefault();
     }
