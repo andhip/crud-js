@@ -145,7 +145,7 @@ const App   =   (function(ItemCtrl, UICtrl){
 
             const items =   ItemCtrl.getItems();
 
-            //hide list item on table
+            //hide list input item on table
             if(items.length === 0){
                 UICtrl.hideList();
             }else {
