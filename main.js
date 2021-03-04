@@ -51,6 +51,9 @@ const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
+        updateBtn: '.update-btn',
+        deleteBtn: '.delete-btn',
+        backBtn: '.back-btn'
         itemNamaPaket: '#nama-paket',
         itemHargaPaket: '#harga-paket'
     }
