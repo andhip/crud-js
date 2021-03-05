@@ -44,7 +44,7 @@ const ItemCtrl  =   (function(){
             //made id
             let found = null;
 
-            data.item.forEach(function(item){
+            data.items.forEach(function(item){
                 if(item.id === id){ //looping by id
                     found = item;
                 }
@@ -155,6 +155,21 @@ const UICtrl    =   (function() {
             document.querySelector(UISelector.totalHarga).textContent = totalHarga;
         },
 
+        clearEditState: function(){
+            UICtrl.clearInput();
+            document.querySelector(UISelector.updateBtn).style.display = 'none';
+            document.querySelector(UISelector.deleteBtn).style.display = 'none';
+            document.querySelector(UISelector.backBtn).style.display = 'none';
+            document.querySelector(UISelector.addBtn).style.display = 'inline';
+        },
+
+        showEditState: function(){
+            document.querySelector(UISelector.updateBtn).style.display = 'inline';
+            document.querySelector(UISelector.deleteBtn).style.display = 'inline';
+            document.querySelector(UISelector.backBtn).style.display = 'inline';
+            document.querySelector(UISelector.addBtn).style.display = 'none';
+        },
+
         hideList: function(){
             document.querySelector(UISelector.itemList).style.display = 'none'
         },
@@ -174,6 +189,7 @@ const App   =   (function(ItemCtrl, UICtrl){
         const UISelector = UICtrl.getSelector();
 
         document.querySelector(UISelector.addBtn).addEventListener('click', itemAddSubmit);
+        document.querySelector(UISelector.itemList).addEventListener('click', itemUpdateSubmmit);
     }
 
     const itemAddSubmit = function(e){
@@ -197,9 +213,33 @@ const App   =   (function(ItemCtrl, UICtrl){
         }
         e.preventDefault();
     }
+    // update data
+    const itemUpdateSubmmit = function(e) {
+        if(e.target.classList.contains('edit-item')){
+            
+            // take list item based on id
+            const listId = e.target.parentNode.parentNode.id;
+
+            // put in an array
+            // split membagi kedalam array
+            const lisstIdArr = listId.split('-');
+            // Take the real ID
+            const id = parseInt(lisstIdArr[1]);
+            // take an item
+            const itemToEdit = ItemCtrl.getItemById(id);
+
+            ItemCtrl.setCurrentItem(itemToEdit);
+
+            UICtrl.addItemToForm()
+        }
+        // avoid the default from DOM
+        e.preventDefault();
+    }
 
     return {
         init: function(){
+
+            UICtrl.clearEditState();
 
             const items =   ItemCtrl.getItems();
 
