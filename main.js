@@ -52,6 +52,15 @@ const ItemCtrl  =   (function(){
             return found;
         },
 
+        setCurrentItem: function(item) {
+            data.currentItem = item;
+        },
+
+        // get data based on current item
+        getCurrentItem: function () {
+            return data.currentItem;
+        },
+
         getTotalHarga: function(){
             let total = 0;
 
@@ -78,9 +87,9 @@ const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
-        // updateBtn: '.update-btn',
-        // deleteBtn: '.delete-btn',
-        // backBtn: '.back-btn',
+        updateBtn: '.update-btn',
+        deleteBtn: '.delete-btn',
+        backBtn: '.back-btn',
         itemNamaPaket: '#nama-paket',
         itemHargaPaket: '#harga-paket',
         totalHarga : '.total-harga'
@@ -95,7 +104,7 @@ const UICtrl    =   (function() {
                 html += `<li class="collection-item" id="item-${item.id}">
                 <b>${item.nama} </b><em>Rp. ${item.harga}</em>
                 <a href="#" class="secondary-content">
-                    <i class="fa fa-pencil"></i>
+                    <i class="edit-item fa fa-pencil"></i>
                 </a>
             </li>`;
             
@@ -123,7 +132,7 @@ const UICtrl    =   (function() {
 
             li.innerHTML = ` <b>${item.nama} </b><em>Rp. ${item.harga}</em>
             <a href="#" class="secondary-content">
-                <i class="fa fa-pencil"></i>
+                <i class="edit-item fa fa-pencil"></i>
             </a>`;
 
             document.querySelector(UISelector.itemList).insertAdjacentElement('beforeend', li);
@@ -135,8 +144,15 @@ const UICtrl    =   (function() {
             document.querySelector(UISelector.itemHargaPaket).value = '';
         },
 
-        showTotalHarga: function() {
-            document.querySelector(UISelector.totalHarga).value = '';
+        addItemToForm: function() {
+            document.querySelector(UISelector.itemNamaPaket).value = ItemCtrl.getCurrentItem().nama;
+            document.querySelector(UISelector.itemHargaPaket).value = ItemCtrl.getCurrentItem().harga;
+
+            UICtrl.showEditState();
+        },
+
+        showTotalHarga: function(totalHarga) {
+            document.querySelector(UISelector.totalHarga).textContent = totalHarga;
         },
 
         hideList: function(){
