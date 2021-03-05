@@ -135,8 +135,12 @@ const UICtrl    =   (function() {
             document.querySelector(UISelector.itemHargaPaket).value = '';
         },
 
+        showTotalHarga: function() {
+            document.querySelector(UISelector.totalHarga).value = '';
+        },
+
         hideList: function(){
-            document.querySelector(UISelector.itemList).style.display = 'nnone'
+            document.querySelector(UISelector.itemList).style.display = 'none'
         },
 
         getSelector: function(){
@@ -166,12 +170,13 @@ const App   =   (function(ItemCtrl, UICtrl){
         
             UICtrl.addListItem(newItem);
 
-            UICtrl.clearInput();
-
             const  totalHarga = ItemCtrl.getTotalHarga();
 
             // add total harga to ui
             UICtrl.showTotalHarga(totalHarga);
+
+            UICtrl.clearInput();
+
 
         }
         e.preventDefault();
@@ -190,6 +195,10 @@ const App   =   (function(ItemCtrl, UICtrl){
 
             }
 
+            const  totalHarga = ItemCtrl.getTotalHarga();
+
+            // add total harga to ui
+            UICtrl.showTotalHarga(totalHarga);
         
             loadEventListeners();
         }
