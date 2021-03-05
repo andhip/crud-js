@@ -82,7 +82,8 @@ const UICtrl    =   (function() {
         // deleteBtn: '.delete-btn',
         // backBtn: '.back-btn',
         itemNamaPaket: '#nama-paket',
-        itemHargaPaket: '#harga-paket'
+        itemHargaPaket: '#harga-paket',
+        totalHarga : '.total-harga'
     }
 
     return {
@@ -167,9 +168,9 @@ const App   =   (function(ItemCtrl, UICtrl){
 
             UICtrl.clearInput();
 
-            const totalHarga = ItemCtrl.getTotalHarga();
+            const  totalHarga = ItemCtrl.getTotalHarga();
 
-            // add total harga to UI/browser
+            // add total harga to ui
             UICtrl.showTotalHarga(totalHarga);
 
         }
