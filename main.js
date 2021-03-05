@@ -52,6 +52,21 @@ const ItemCtrl  =   (function(){
             return found;
         },
 
+        updateItem: function(nama, harga) {
+            harga = parseInt(harga);
+
+            let found = null;
+
+            data.items.forEach(function(item){
+                if(item.id === data.currentItem.id) {
+                    item.nama  = nama;
+                    item.harga = harga;
+                    found      = item;
+                }
+            });
+            return found;
+        },
+
         setCurrentItem: function(item) {
             data.currentItem = item;
         },
@@ -82,11 +97,12 @@ const ItemCtrl  =   (function(){
 
 })();
 
-
+// Selector
 const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
+        listItem: '.item-list',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
         backBtn: '.back-btn',
@@ -139,6 +155,26 @@ const UICtrl    =   (function() {
 
         },
 
+        updateListItem: function(item) {
+            let listItems = document.querySelectorAll(UISelector.listItems);
+
+            listItems = Array.from(listItems);
+            listItems.forEach(function(listItem){
+                
+                const itemID = listItem.getAttribute('id');
+
+                if(itemID === 'item-${item.id}'){
+
+                    document.querySelector(`#${itemID}`).innerHTML = `<li class="collection-item" id="item-${item.id}">
+                    <b>${item.nama} </b><em>Rp. ${item.harga}</em>
+                    <a href="#" class="secondary-content">
+                        <i class="edit-item fa fa-pencil"></i>
+                    </a>
+                </li>`;
+                }
+            });
+        },
+
         clearInput: function() {
             document.querySelector(UISelector.itemNamaPaket).value = '';
             document.querySelector(UISelector.itemHargaPaket).value = '';
@@ -189,7 +225,18 @@ const App   =   (function(ItemCtrl, UICtrl){
         const UISelector = UICtrl.getSelector();
 
         document.querySelector(UISelector.addBtn).addEventListener('click', itemAddSubmit);
-        document.querySelector(UISelector.itemList).addEventListener('click', itemUpdateSubmmit);
+
+        document.addEventListener('keypress', function(e){
+            if(e.keyCode === 13 || e.which === 13){
+
+                e.preventDefault;
+                return false;
+            }
+        });
+
+        document.querySelector(UISelector.itemList).addEventListener('click', itemEditClick);
+
+        document.querySelector(UISelector.updateBtn).addEventListener('click', itemUpdateSubmit);
     }
 
     const itemAddSubmit = function(e){
@@ -214,7 +261,7 @@ const App   =   (function(ItemCtrl, UICtrl){
         e.preventDefault();
     }
     // update data
-    const itemUpdateSubmmit = function(e) {
+    const itemEditClick = function(e) {
         if(e.target.classList.contains('edit-item')){
             
             // take list item based on id
@@ -235,6 +282,25 @@ const App   =   (function(ItemCtrl, UICtrl){
         // avoid the default from DOM
         e.preventDefault();
     }
+
+    const itemUpdateSubmit = function(e){
+
+        // take an input value
+        const input = UICtrl.getItemInput();
+
+        const updatedItem = ItemCtrl.updateItem(input.nama, input.harga);
+
+        UICtrl.updateListItem(updatedItem);
+
+        const totalHarga = ItemCtrl.getTotalHarga();
+
+        UICtrl.showTotalHarga(totalHarga);
+
+        UICtrl.clearEditState();
+        e.preventDefault();
+
+    }
+
 
     return {
         init: function(){
