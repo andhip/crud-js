@@ -43,6 +43,7 @@ const ItemCtrl  =   (function(){
     }
 
     const data = {
+        
         // items: [
         //     // {id: 0, nama: 'SEO', harga: 120000},
         //     // {id: 1, nama: 'Google Addboard', harga: 450000},
@@ -78,6 +79,7 @@ const ItemCtrl  =   (function(){
             return newItem;
 
         },
+        
         getItemById : function(id){
             //made id
             let found = null;
@@ -183,6 +185,7 @@ const UICtrl    =   (function() {
         
             document.querySelector(UISelector.itemList).innerHTML   =   html;
         },
+        
         getItemInput: function(){
             return {
                 nama : document.querySelector(UISelector.itemNamaPaket).value,
