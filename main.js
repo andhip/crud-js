@@ -66,6 +66,22 @@ const ItemCtrl  =   (function(){
             });
             return found;
         },
+        
+        deleteItem: function(id){
+            // get id
+            const ids = data.items.map(function(item){
+                
+                return item.id;
+            });
+
+            const index = ids.indexOf(id);
+
+            data.items.splice(index, 1);
+        },
+
+        clearAllItem: function() {
+            data.items = [];
+        },
 
         setCurrentItem: function(item) {
             data.currentItem = item;
@@ -102,6 +118,7 @@ const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
+        clearBtn: '.clear-btn',
         listItem: '.item-list',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
@@ -174,6 +191,14 @@ const UICtrl    =   (function() {
                 }
             });
         },
+        
+        deleteListItem: function(id) {
+            
+            const itemID = `#item-${id}`;
+
+            const item = document.querySelector(itemID);
+            item.remove();
+        },
 
         clearInput: function() {
             document.querySelector(UISelector.itemNamaPaket).value = '';
@@ -185,6 +210,17 @@ const UICtrl    =   (function() {
             document.querySelector(UISelector.itemHargaPaket).value = ItemCtrl.getCurrentItem().harga;
 
             UICtrl.showEditState();
+        },
+
+        removeItems: function(){
+
+            let listItems = document.querySelectorAll(UISelector.listItems);
+
+            listItems = Array.from(listItems);
+
+            listItems.forEach(function(item){
+                item.remove();
+            });
         },
 
         showTotalHarga: function(totalHarga) {
@@ -224,8 +260,10 @@ const App   =   (function(ItemCtrl, UICtrl){
         
         const UISelector = UICtrl.getSelector();
 
+        // save data 
         document.querySelector(UISelector.addBtn).addEventListener('click', itemAddSubmit);
 
+        // make enter not working
         document.addEventListener('keypress', function(e){
             if(e.keyCode === 13 || e.which === 13){
 
@@ -234,16 +272,29 @@ const App   =   (function(ItemCtrl, UICtrl){
             }
         });
 
+
+        // edit click data insert to form
         document.querySelector(UISelector.itemList).addEventListener('click', itemEditClick);
 
+        // update data
         document.querySelector(UISelector.updateBtn).addEventListener('click', itemUpdateSubmit);
+
+        // delete button
+        document.querySelector(UISelector.deleteBtn).addEventListener('click', itemDeleteSubmit);
+        
+        // back button event
+        document.querySelector(UISelector.backBtn).addEventListener('click', UICtrl.clearEditState);
+
+        // clear all data
+        document.querySelector(UISelector.clearBtn).addEventListener('click', clearAllItemClick);
+
     }
 
     const itemAddSubmit = function(e){
         
         const input = UICtrl.getItemInput();
 
-        //kondisi
+        //condition
         if(input.nama !== '' && input.harga !== ''){
             const newItem = ItemCtrl.addItem(input.nama, input.harga);
         
@@ -253,7 +304,6 @@ const App   =   (function(ItemCtrl, UICtrl){
 
             // add total harga to ui
             UICtrl.showTotalHarga(totalHarga);
-
             UICtrl.clearInput();
 
 
@@ -295,12 +345,45 @@ const App   =   (function(ItemCtrl, UICtrl){
         const totalHarga = ItemCtrl.getTotalHarga();
 
         UICtrl.showTotalHarga(totalHarga);
-
         UICtrl.clearEditState();
+        
         e.preventDefault();
 
     }
 
+    // delete button event
+    const itemDeleteSubmit = function(e){
+        
+        // to take item that we will delete
+        const currentItem = ItemCtrl.getCurrentItem
+
+        ItemCtrl.deleteItem(currentItem.id);
+
+        // to delete form in UI
+        UICtrl.deleteListItem(currentItem.id);
+
+        const totalHarga = ItemCtrl.getTotalHarga();
+
+        UICtrl.showTotalHarga(totalHarga);
+        UICtrl.clearEditState();
+
+        e.preventDefault();
+    }
+
+    const clearAllItemClick =  function(){
+        
+        // delete all data in form/table
+        ItemCtrl.clearAllItem();
+
+        const totalHarga = ItemCtrl.getTotalHarga();
+
+        UICtrl.showTotalHarga(totalHarga);
+
+        UICtrl.removeItems();
+
+        // hide UL
+        UICtrl.hideList();
+    }
 
     return {
         init: function(){
