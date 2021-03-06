@@ -1,3 +1,39 @@
+const StorageCtrl = (function() {
+
+    return {
+        paketKursus: function(item) {
+            let items;
+            
+            if(localStorage.getItem('items') === null){
+
+                items = [];
+
+                items.push(item);
+                
+                localStorage.setItem('items', JSON.stringify(items));
+            } else {
+
+                items = JSON.parse(localStorage.getItem('items'));
+
+                items.push(item);
+
+                localStorage.setItem('items', JSON.stringify('items'));
+            }
+        },
+
+        getItemsfromStorage: function(){
+            let items;
+        
+            if(localStorage.getItem('items') === null){
+                items = [];
+            }else {
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+            return items;
+        }
+    }
+})();
+
 const ItemCtrl  =   (function(){
 
     const Item  =   function(id, nama, harga){
@@ -7,11 +43,13 @@ const ItemCtrl  =   (function(){
     }
 
     const data = {
-        items: [
-            // {id: 0, nama: 'SEO', harga: 120000},
-            // {id: 1, nama: 'Google Addboard', harga: 450000},
-            // {id: 2, nama: 'Fullstack Web', harga: 600000},
-        ],
+        // items: [
+        //     // {id: 0, nama: 'SEO', harga: 120000},
+        //     // {id: 1, nama: 'Google Addboard', harga: 450000},
+        //     // {id: 2, nama: 'Fullstack Web', harga: 600000},
+        // ],
+
+        items: StorageCtrl.getItemsfromStorage(),
 
         currenItem: null,
         totalHarga: 0
@@ -253,7 +291,7 @@ const UICtrl    =   (function() {
     }
 })();
 
-const App   =   (function(ItemCtrl, UICtrl){
+const App   =   (function(ItemCtrl, StorageCtrl, UICtrl){
 
     
     const loadEventListeners = function(){
@@ -304,8 +342,10 @@ const App   =   (function(ItemCtrl, UICtrl){
 
             // add total harga to ui
             UICtrl.showTotalHarga(totalHarga);
-            UICtrl.clearInput();
 
+            StorageCtrl.paketKursus(newItem);
+            
+            UICtrl.clearInput();
 
         }
         e.preventDefault();
@@ -409,6 +449,6 @@ const App   =   (function(ItemCtrl, UICtrl){
         }
     }
 
-})(ItemCtrl, UICtrl);
+})(ItemCtrl, StorageCtrl, UICtrl);
 
 App.init();
