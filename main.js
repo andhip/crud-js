@@ -185,10 +185,10 @@ const UICtrl    =   (function() {
     const UISelector    = {
         itemList: '#item-list',
         addBtn  : '.add-btn',
-        clearBtn: '.clear-btn',
         listItem: '.item-list',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
+        clearBtn: '.clear-btn',
         backBtn: '.back-btn',
         itemNamaPaket: '#nama-paket',
         itemHargaPaket: '#harga-paket',
@@ -373,7 +373,7 @@ const App   =   (function(ItemCtrl, StorageCtrl, UICtrl){
             // add total harga to ui
             UICtrl.showTotalHarga(totalHarga);
 
-            StorageCtrl.paketKursus(newItem);
+            StorageCtrl.paketKursus(newItem); 
             UICtrl.clearInput();
 
         }
