@@ -1,61 +1,61 @@
-// const StorageCtrl = (function() {
+const StorageCtrl = (function() {
 
-//     return {
-//         paketKursus: function(item) {
-//             let items;
+    return {
+        paketKursus: function(item) {
+            let items;
             
-//             if(localStorage.getItem('items') === null){
+            if(localStorage.getItem('items') === null){
 
-//                 items = [];
+                items = [];
 
-//                 items.push(item);
+                items.push(item);
                 
-//                 localStorage.setItem('items', JSON.stringify(items));
-//             } else {
+                localStorage.setItem('items', JSON.stringify(items));
+            } else {
 
-//                 items = JSON.parse(localStorage.getItem('items'));
+                items = JSON.parse(localStorage.getItem('items'));
 
-//                 items.push(item);
+                items.push(item);
 
-//                 localStorage.setItem('items', JSON.stringify('items'));
-//             }
-//         },
+                localStorage.setItem('items', JSON.stringify('items'));
+            }
+        },
 
-//         getItemsfromStorage: function(){
-//             let items;
+        getItemsfromStorage: function(){
+            let items;
         
-//             if(localStorage.getItem('items') === null){
-//                 items = [];
-//             }else {
-//                 items = JSON.parse(localStorage.getItem('items'));
-//             }
-//             return items;
-//         },
+            if(localStorage.getItem('items') === null){
+                items = [];
+            }else {
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+            return items;
+        },
 
-//         updateItemStorage: function(updateItem){
-//             let items = JSON.parse(localStorage.getItem('items'));
+        // updateItemStorage: function(updateItem){
+        //     let items = JSON.parse(localStorage.getItem('items'));
 
-//             items.forEach(function(item, index){
-//                 if(updateItem.id === item.id){
-//                     items.splice(index, 1, updateItem);
-//                 }
-//             });
-//             localStorage.setItem('items', JSON.stringify(items));
+        //     items.forEach(function(item, index){
+        //         if(updateItem.id === item.id){
+        //             items.splice(index, 1, updateItem);
+        //         }
+        //     });
+        //     localStorage.setItem('items', JSON.stringify(items));
 
-//         },
+        // },
         
-//         deleteItemFromStorage: function(id){
-//                 let ietems = JSON.parse(localStorage.getItem('items'));
+        // deleteItemFromStorage: function(id){
+        //         let ietems = JSON.parse(localStorage.getItem('items'));
 
-//                 items.forEach(function(item, index){
-//                     if(id === item.id){
-//                         item.splice(index, 1);
-//                     }
-//                 });
-//                 localStorage.setItem('item', JSON.stringify(item));
-//         }
-//     }
-// })();
+        //         items.forEach(function(item, index){
+        //             if(id === item.id){
+        //                 item.splice(index, 1);
+        //             }
+        //         });
+        //         localStorage.setItem('item', JSON.stringify(item));
+        // }
+    }
+})();
 
 const ItemCtrl  =   (function(){
 
@@ -67,13 +67,13 @@ const ItemCtrl  =   (function(){
 
     const data = {
         
-        items: [
-            // {id: 0, nama: 'SEO', harga: 120000},
-            // {id: 1, nama: 'Google Addboard', harga: 450000},
-            // {id: 2, nama: 'Fullstack Web', harga: 600000},
-        ],
+        // items: [
+        //     // {id: 0, nama: 'SEO', harga: 120000},
+        //     // {id: 1, nama: 'Google Addboard', harga: 450000},
+        //     // {id: 2, nama: 'Fullstack Web', harga: 600000},
+        // ],
 
-        // items: StorageCtrl.getItemsfromStorage(),
+        items: StorageCtrl.getItemsfromStorage(),
 
         currenItem: null,
         totalHarga: 0
@@ -317,7 +317,7 @@ const UICtrl    =   (function() {
     }
 })();
 
-const App   =   (function(ItemCtrl, UICtrl){
+const App   =   (function(ItemCtrl, StorageCtrl, UICtrl){
 
     
     const loadEventListeners = function(){
@@ -369,8 +369,7 @@ const App   =   (function(ItemCtrl, UICtrl){
             // add total harga to ui
             UICtrl.showTotalHarga(totalHarga);
 
-            // StorageCtrl.paketKursus(newItem);
-            
+            StorageCtrl.paketKursus(newItem);
             UICtrl.clearInput();
 
         }
@@ -478,6 +477,6 @@ const App   =   (function(ItemCtrl, UICtrl){
         }
     }
 
-})(ItemCtrl,  UICtrl);
+})(ItemCtrl, StorageCtrl,  UICtrl);
 
 App.init();
