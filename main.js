@@ -32,28 +32,32 @@ const StorageCtrl = (function() {
             return items;
         },
 
-        // updateItemStorage: function(updateItem){
-        //     let items = JSON.parse(localStorage.getItem('items'));
+        updateItemStorage: function(updateItem){
+            let items = JSON.parse(localStorage.getItem('items'));
 
-        //     items.forEach(function(item, index){
-        //         if(updateItem.id === item.id){
-        //             items.splice(index, 1, updateItem);
-        //         }
-        //     });
-        //     localStorage.setItem('items', JSON.stringify(items));
+            items.forEach(function(item, index){
+                if(updatedItem.id === item.id){
+                    items.splice(index, 1, updatedItem);
+                }
+            });
+            localStorage.setItem('items', JSON.stringify(items));
 
-        // },
+        },
         
-        // deleteItemFromStorage: function(id){
-        //         let ietems = JSON.parse(localStorage.getItem('items'));
+        deleteItemFromStorage: function(id){
+                let items = JSON.parse(localStorage.getItem('items'));
 
-        //         items.forEach(function(item, index){
-        //             if(id === item.id){
-        //                 item.splice(index, 1);
-        //             }
-        //         });
-        //         localStorage.setItem('item', JSON.stringify(item));
-        // }
+                items.forEach(function(item, index){
+                    if(id === item.id){
+                        item.splice(index, 1);
+                    }
+                });
+                localStorage.setItem('item', JSON.stringify(items));
+        },
+        
+        clearItemFromStorage: function() {
+            localStorage.removeItem('items');
+        }
     }
 })();
 
@@ -411,7 +415,7 @@ const App   =   (function(ItemCtrl, StorageCtrl, UICtrl){
 
         UICtrl.showTotalHarga(totalHarga);
 
-        // StorageCtrl.updateItemStorage(updatedItem);
+        StorageCtrl.updateItemStorage(updatedItem);
         UICtrl.clearEditState();
         
         e.preventDefault();
@@ -432,7 +436,8 @@ const App   =   (function(ItemCtrl, StorageCtrl, UICtrl){
         const totalHarga = ItemCtrl.getTotalHarga();
 
         UICtrl.showTotalHarga(totalHarga);
-        // StorageCtrl.deleteItemFromStorage(currentItem.id);
+        
+        StorageCtrl.deleteItemFromStorage(currentItem.id);
         UICtrl.clearEditState();
 
         e.preventDefault();
@@ -448,6 +453,7 @@ const App   =   (function(ItemCtrl, StorageCtrl, UICtrl){
         UICtrl.showTotalHarga(totalHarga);
 
         UICtrl.removeItems();
+        StorageCtrl.clearItemFromStorage();
 
         // hide UL
         UICtrl.hideList();
