@@ -49,10 +49,10 @@ const StorageCtrl = (function() {
 
                 items.forEach(function(item, index){
                     if(id === item.id){
-                        item.splice(index, 1);
+                        items.splice(index, 1);
                     }
                 });
-                localStorage.setItem('item', JSON.stringify(items));
+                localStorage.setItem('items', JSON.stringify(items));
         },
         
         clearItemFromStorage: function() {
