@@ -197,10 +197,10 @@ const UICtrl    =   (function() {
 
     return {
 
-        populateItemList: function(items){
+        populateItemList: function(item){
             let html = '';
 
-            items.forEach(function(item){
+            item.forEach(function(item){
                 html += `<li class="collection-item" id="item-${item.id}">
                 <b>${item.nama} </b><em>Rp. ${item.harga}</em>
                 <a href="#" class="secondary-content">
