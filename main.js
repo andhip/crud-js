@@ -4,7 +4,7 @@ const StorageCtrl = (function() {
         paketKursus: function(item) {
             let items;
             
-            if(localStorage.getItem('items') === null){
+            if(localStorage.getItem('item') === null){
 
                 items = [];
 
@@ -13,7 +13,7 @@ const StorageCtrl = (function() {
                 localStorage.setItem('items', JSON.stringify(items));
             } else {
 
-                items = JSON.parse(localStorage.getItem('items'));
+                items = JSON.parse(localStorage.getItem('item'));
 
                 items.push(item);
 
@@ -24,15 +24,15 @@ const StorageCtrl = (function() {
         getItemsfromStorage: function(){
             let items;
         
-            if(localStorage.getItem('items') === null){
+            if(localStorage.getItem('item') === null){
                 items = [];
             }else {
-                items = JSON.parse(localStorage.getItem('items'));
+                items = JSON.parse(localStorage.getItem('item'));
             }
             return items;
         },
 
-        updateItemStorage: function(updateItem){
+        updateItemStorage: function(updatedItem){
             let items = JSON.parse(localStorage.getItem('items'));
 
             items.forEach(function(item, index){
@@ -52,7 +52,7 @@ const StorageCtrl = (function() {
                         items.splice(index, 1);
                     }
                 });
-                localStorage.setItem('items', JSON.stringify(items));
+                localStorage.setItem('item', JSON.stringify(items));
         },
         
         clearItemFromStorage: function() {
@@ -197,10 +197,10 @@ const UICtrl    =   (function() {
 
     return {
 
-        populateItemList: function(items){
+        populateItemList: function(item){
             let html = '';
 
-            items.forEach(function(item){
+            item.forEach(function(item){
                 html += `<li class="collection-item" id="item-${item.id}">
                 <b>${item.nama} </b><em>Rp. ${item.harga}</em>
                 <a href="#" class="secondary-content">
